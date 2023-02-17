@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import AddBankAccount from './components/AddBankAccount';
+import LoginRegister from './components/LoginRegister';
+import Dashboard from './components/Dashboard';
+import Navbar from './components/Navbar';
+import ProtectorRoute from './components/Auth/ProtectorRoute';
+
 
 function App() {
+  const location = useLocation();
+  const isSpecialPage = location.pathname === '/';
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {!isSpecialPage && <Navbar />}
+      <Routes>
+        <Route path="/" element={<LoginRegister />} />
+        <Route path="/dashboard/*" element={
+          <ProtectorRoute>
+            <Dashboard />
+          </ProtectorRoute>
+        } />
+        <Route path="/dashboard/addBankAccount" element={<AddBankAccount />} />
+        <Route path='*' element={<Navigate to="/" />} />
+      </Routes>
+    </>
+
   );
 }
 
