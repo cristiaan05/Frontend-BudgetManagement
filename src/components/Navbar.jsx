@@ -1,13 +1,14 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { logOut } from "../store/authSlice";
 
 const navigation = [
-    { name: 'Accounts', href: '#', current: true },
-    { name: 'Transactions', href: '/addBankAccount', current: false },
+    { name: 'Bank Accounts', href: '/dashboard', current: true},
+    { name: 'Transactions', href: '/transactions', current: false },
     { name: 'Exchange', href: '#', current: false },
 ]
 
@@ -18,6 +19,7 @@ function classNames(...classes) {
 const Navbar = () => {
     const dispatch = useDispatch();
     //const {isAuth}=useSelector(state=>state.auth)
+
 
     const navigate = useNavigate();
     const redirect = () => {
@@ -59,17 +61,17 @@ const Navbar = () => {
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-4">
                                         {navigation.map((item) => (
-                                            <a
+                                            <Link
                                                 key={item.name}
-                                                href={item.href}
+                                                to={item.href}
                                                 className={classNames(
                                                     item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                                     'px-3 py-2 rounded-md text-sm font-medium'
                                                 )}
-                                                aria-current={item.current ? 'page' : undefined}
+                                                aria-current={item.current ? 'page' : item.current.valueOf(false)}
                                             >
                                                 {item.name}
-                                            </a>
+                                            </Link>
                                         ))}
                                     </div>
                                 </div>

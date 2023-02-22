@@ -163,6 +163,7 @@ const LoginRegister = () => {
                                 id="password"
                                 value={password}
                                 onChange={handlePasswordChange}
+                                required
                             />
                         </div>
                         {error && <div style={{ color: "red" }}>Data not valid</div>}

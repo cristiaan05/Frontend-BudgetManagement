@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const token = localStorage.getItem('usertoken');
-console.log(token)
+//console.log(token)
 export const getAccountsByUser = createAsyncThunk(
 
     'auth/getAccounts',
@@ -16,7 +16,6 @@ export const getAccountsByUser = createAsyncThunk(
                 },
             });
             const responseJson = await response.json();
-            console.log(responseJson)
             return { accounts: responseJson.accounts }
         } catch (error) {
             console.log(error);
@@ -25,8 +24,10 @@ export const getAccountsByUser = createAsyncThunk(
     }
 )
 
+
 const initialState = {
-    accounts: null
+    accounts: null,
+    account_name:null,
 }
 
 export const accountSlice = createSlice({
@@ -38,7 +39,16 @@ export const accountSlice = createSlice({
             state.accounts = action.payload.accounts;
 
         }
-    }
+    },
+    extraReducers:(builder)=>{
+        builder.addCase(getAccountsByUser.fulfilled,(state,action)=>{
+            state.accounts = action.payload.accounts;
+        })
+
+        // [getAccountsByUser.fulfilled]:(state,action)=>{
+            
+        // }
+    },
 });
 
 export const { getAccounts } = accountSlice.actions;
