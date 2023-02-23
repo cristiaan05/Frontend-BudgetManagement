@@ -233,8 +233,8 @@ const AddBankAccount = () => {
         </Dialog>
       </Transition.Root>
 
-      {showAlert && !setError && <Alert message="Bank Account created successful!" color="green" />}
-      {showAlert &&setError && <Alert message="Error creating bank account!" color="red" />}
+      {showAlert && error===false && <Alert message="Bank Account created successful!" color="green" />}
+      {showAlert &&error && <Alert message="Error creating bank account!" color="red" />}
     </>
 
   )

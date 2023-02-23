@@ -1,42 +1,17 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { MdOutlinePayment } from 'react-icons/md'
+import { BiTransferAlt } from 'react-icons/bi'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Alert from './Alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAccountsByUser } from '../store/accountSlice'
 
-const categories = [
-    "Rent or mortgage",
-    "Utilities",
-    "Insurance",
-    "Food and groceries",
-    "Transportation",
-    "Entertainment",
-    "Clothing and personal care",
-    "Education",
-    "Gifts and donations",
-    "Travel and vacations",
-    "Debt repayment",
-    "Taxes",
-    "Miscellaneous",
-    "Salary or wages",
-    //INCOMES CATEGORies
-    "Freelance or self - employment income",
-    "Investment income(stocks, mutual funds, real estate)",
-    "Rental income",
-    "Pension or retirement income",
-    "Social Security or other government benefits",
-    "Child support or alimony",
-    "Interest income(savings accounts, CDs)",
-    "Bonus or commission income",
-    "Tips or gratuities",
-];
 
-const AddTransaction = () => {
+
+const AddTransfer = () => {
     // eslint-disable-next-line no-unused-vars
     const [open, setOpen] = useState(true)
-    const [formData, setFormData] = useState({ id_bank_account: '', amount: '', date: '', category: '', type: '' })
+    const [formData, setFormData] = useState({ date: '', amount: '', currency: '', id_account: '', id_account_destination: '' })
     const cancelButtonRef = useRef(null)
 
     //alert succesfful or error
@@ -57,15 +32,14 @@ const AddTransaction = () => {
     }
 
     const navigate = useNavigate();
-    const {state} = useLocation();
-    if(state){
+    const { state } = useLocation();
+    if (state) {
         const { id } = state;
-        formData.id_bank_account=id;
+        formData.id_account = id;
     }
 
     const redirect = () => {
         navigate(-1)
-
     }
     function cargar() {
         dispatch(getAccountsByUser())
@@ -80,7 +54,7 @@ const AddTransaction = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch('http://localhost:3000/app/addTransaction', {
+            const response = await fetch('http://localhost:3000/app/transferMyAccounts', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -90,9 +64,9 @@ const AddTransaction = () => {
                 body: JSON.stringify({
                     date: formData.date,
                     amount: formData.amount,
-                    category: formData.category,
-                    type: formData.type,
-                    id_bank_account: formData.id_bank_account
+                    currency: formData.currency,
+                    id_account: formData.id_account,
+                    id_account_destination: formData.id_account_destination
                 })
             });
             console.log(formData)
@@ -146,24 +120,24 @@ const AddTransaction = () => {
                                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                                     <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                         <div className="sm:flex sm:items-start">
-                                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                                                <MdOutlinePayment className="h-6 w-6 text-green-600" aria-hidden="true" />
+                                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-purple-100 sm:mx-0 sm:h-10 sm:w-10">
+                                                <BiTransferAlt className="h-6 w-6 text-purple-600" aria-hidden="true" />
                                             </div>
                                             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                                 <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                                                    Add Transaction
+                                                    Transfer between accounts
                                                 </Dialog.Title>
                                                 <div className="mt-2">
                                                     <form onSubmit={handleSubmit}>
                                                         <div className="mt-4">
-                                                            <label htmlFor="id_bank_account" className="block text-sm font-medium text-gray-700">
-                                                                Accounts Available
+                                                            <label htmlFor="id_account" className="block text-sm font-medium text-gray-700">
+                                                                Transfer from:
                                                             </label>
                                                             <div className="mt-1">
                                                                 <select
-                                                                    id="id_bank_account"
-                                                                    name="id_bank_account"
-                                                                    value={formData.id_bank_account}
+                                                                    id="id_account"
+                                                                    name="id_account"
+                                                                    value={formData.id_account}
                                                                     onChange={handleInputChange}
                                                                     className="border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 rounded-md py-2 px-3"
                                                                     required
@@ -178,46 +152,50 @@ const AddTransaction = () => {
                                                             </div>
                                                         </div>
                                                         <div className="mt-4">
-                                                            <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-                                                                Transaction Type
+                                                            <label htmlFor="id_account_destination" className="block text-sm font-medium text-gray-700">
+                                                                Transfer to:
                                                             </label>
                                                             <div className="mt-1">
                                                                 <select
-                                                                    id="type"
-                                                                    name="type"
-                                                                    value={formData.type}
+                                                                    id="id_account_destination"
+                                                                    name="id_account_destination"
+                                                                    value={formData.id_account_destination}
                                                                     onChange={handleInputChange}
                                                                     className="border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 rounded-md py-2 px-3"
                                                                     required
                                                                 >
-                                                                    <option value="">-- Select Transaction Type --</option>
-                                                                    <option value="expense">Expense</option>
-                                                                    <option value="income">Income</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div className="mt-4">
-                                                            <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-                                                                Category
-                                                            </label>
-                                                            <div className="mt-1">
-                                                                <select
-                                                                    id="category"
-                                                                    name="category"
-                                                                    value={formData.category}
-                                                                    onChange={handleInputChange}
-                                                                    required
-                                                                    className="border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 rounded-md py-2 px-3"
-                                                                >
-                                                                    <option value="">-- Select Category --</option>
-                                                                    {categories.map((category) => (
-                                                                        <option key={category} value={category}>
-                                                                            {category}
+                                                                    <option value="">-- Select Account --</option>
+                                                                    {accounts && accounts.map((account) => (
+                                                                        <option key={account.id} value={account.id}>
+                                                                            {account.id}
                                                                         </option>
                                                                     ))}
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        <div className="mt-4">
+                                                            <label htmlFor="currency" className="block text-sm font-medium text-gray-700">
+                                                                Currency
+                                                            </label>
+                                                            <div className="mt-1">
+                                                                <select
+                                                                    id="currency"
+                                                                    name="currency"
+                                                                    value={formData.currency}
+                                                                    onChange={handleInputChange}
+                                                                    required
+                                                                    className="border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-2 rounded-md py-2 px-3"
+                                                                >
+                                                                    <option value="">-- Select Currency --</option>
+                                                                    <option value="$">USD $</option>
+                                                                    <option value="€">EUR €</option>
+                                                                    <option value="¥">JPY ¥</option>
+                                                                    <option value="$">MXN $</option>
+                                                                    <option value="Q">GTQ Q</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
                                                         <div className="mt-4">
                                                             <label htmlFor="date" className="block text-sm font-medium text-gray-700">
                                                                 Date
@@ -236,9 +214,9 @@ const AddTransaction = () => {
                                                                 Amount
                                                             </label>
                                                             <div className="relative mt-1 rounded-md shadow-sm">
-                                                                {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                                                    <span className="text-gray-500 sm:text-sm">{formData.amount}</span>
-                                                                </div> */}
+                                                                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                                                    <span className="text-gray-500 sm:text-sm">{formData.currency}</span>
+                                                                </div>
                                                                 <input
                                                                     type="number"
                                                                     name="amount"
@@ -249,28 +227,12 @@ const AddTransaction = () => {
                                                                     placeholder="0.00"
                                                                     required
                                                                 />
-                                                                {/* <div className="absolute inset-y-0 right-0 flex items-center">
-                                <label htmlFor="currency" className="sr-only">
-                                  Balance
-                                </label>
-                                <select
-                                  id="balance"
-                                  name="balance"
-                                  className="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                >
-                                  <option>USD</option>
-                                  <option>EUR</option>
-                                  <option>GTQ</option>
-                                  <option>MXN</option>
-                                  <option>JPY</option>
-                                </select>
-                              </div> */}
                                                             </div>
                                                         </div>
                                                         <div className="px-4 py-3 bg-gray-50 sm:px-6 sm:flex sm:flex-row-reverse">
                                                             <button
                                                                 type="submit"
-                                                                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple  -500 sm:ml-3 sm:w-auto sm:text-sm"
                                                             // onClick={handleSubmit}
                                                             >
                                                                 Add
@@ -295,14 +257,13 @@ const AddTransaction = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-
-            {showAlert && !setError && <Alert message="Transaction created successful!" color="green" />}
-            {/* {showAlert && setError && <Alert message="Error creating bank account!" color="red" />} */}
+            {showAlert && error === false && <Alert message="Transaction created successful!" color="green" />}
+            {showAlert && error && <Alert message="Error creating bank account!" color="red" />}
         </>
 
     )
 }
 
-export default AddTransaction;
+export default AddTransfer;
 
 

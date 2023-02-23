@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import ProtectorRoute from './components/Auth/ProtectorRoute';
 import Transactions from './components/Transactions';
 import AddTransaction from './components/AddTransaction';
+import AddTransfer from './components/AddTransfer';
+import ExchangeForm from './components/Exchange';
 
 
 function App() {
@@ -26,8 +28,14 @@ function App() {
             <Transactions />
           </ProtectorRoute>
         } />
+        <Route path="/exchanges/*" element={
+          <ProtectorRoute>
+            <ExchangeForm />
+          </ProtectorRoute>
+        } />
         <Route path="/dashboard/addBankAccount" element={<AddBankAccount />} />
         <Route path="/transactions/AddTransactions" element={<AddTransaction />} />
+        <Route path="/transactions/AddTransfer" element={<AddTransfer />} />
         <Route path='*' element={<Navigate to="/" />} />
       </Routes>
     </>

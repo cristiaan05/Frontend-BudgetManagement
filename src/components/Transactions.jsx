@@ -1,13 +1,7 @@
-// 
-
-
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getTransactionsByFilters } from '../store/transactionSlice';
-
-import { GrTransaction, } from 'react-icons/gr';
-import { FaMoneyBillAlt } from "react-icons/fa";
 import { SiAddthis } from "react-icons/si";
 import { BiSearchAlt } from "react-icons/bi";
 
@@ -43,6 +37,7 @@ const categories = [
     "Interest income(savings accounts, CDs)",
     "Bonus or commission income",
     "Tips or gratuities",
+    "transfer",
 ];
 
 const Transactions = () => {
@@ -59,6 +54,9 @@ const Transactions = () => {
     const navigate = useNavigate();
     const redirect = () => {
         navigate('/transactions/AddTransactions')
+    }
+    const redirectTransfer = () => {
+        navigate('/transactions/AddTransfer')
     }
 
     //console.log(transactions)
@@ -170,7 +168,7 @@ const Transactions = () => {
                                 <span className="text-sm font-medium">Add Transaction</span>
                             </div>
                             <div className='ml-4'>
-                                <button onClick={redirect} className="mr-4 bg-purple-500 text-white font-bold py-2 px-4 rounded inline-block text-sm hover:bg-purple-400">
+                                <button onClick={redirectTransfer} className="mr-4 bg-purple-500 text-white font-bold py-2 px-4 rounded inline-block text-sm hover:bg-purple-400">
                                     <SiAddthis className="h-6 w-6 text-white" aria-hidden="true" />
                                 </button>
                                 <span className="text-sm font-medium">Transfer</span>

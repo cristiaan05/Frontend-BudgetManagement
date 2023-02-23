@@ -9,7 +9,7 @@ import { logOut } from "../store/authSlice";
 const navigation = [
     { name: 'Bank Accounts', href: '/dashboard', current: true},
     { name: 'Transactions', href: '/transactions', current: false },
-    { name: 'Exchange', href: '#', current: false },
+    { name: 'Exchange', href: '/exchanges', current: false },
 ]
 
 function classNames(...classes) {
