@@ -138,9 +138,9 @@ const AddBankAccount = () => {
                                   required
                                 >
                                   <option value="">-- Select Account Type --</option>
-                                  <option value="checking">Current</option>
+                                  <option value="current">Current</option>
                                   <option value="savings">Savings</option>
-                                  <option value="savings">Student</option>
+                                  <option value="student">Student</option>
                                   <option value="credit_card">Credit Card</option>
                                   <option value="cheking">Cheking</option>
                                 </select>
@@ -163,7 +163,7 @@ const AddBankAccount = () => {
                                   <option value="$">USD $</option>
                                   <option value="€">EUR €</option>
                                   <option value="¥">JPY ¥</option>
-                                  <option value="$">MXN $</option>
+                                  <option value="$$">MXN $</option>
                                   <option value="Q">GTQ Q</option>
                                 </select>
                               </div>

@@ -44,6 +44,7 @@ const AddTransaction = () => {
     const [startDate, setStartDate] = useState('');
     // eslint-disable-next-line no-unused-vars
     const [error, setError] = useState(false);
+    const [currency, setCurrency] = useState('')
 
     const { accounts } = useSelector(state => state.accounts)
     const dispatch = useDispatch()
@@ -52,15 +53,21 @@ const AddTransaction = () => {
             ...formData,
             [e.target.name]: e.target.value
         })
+        if (e.target.name === 'id_bank_account') {
+            const currencySelected = e.target.options[e.target.selectedIndex].getAttribute('data-currency');
+            setCurrency(currencySelected)
+        }
+
         //etAccountsUser(accounts)
         //console.log(e.target)
     }
 
     const navigate = useNavigate();
-    const {state} = useLocation();
-    if(state){
+    const { state } = useLocation();
+    if (state) {
         const { id } = state;
-        formData.id_bank_account=id;
+        formData.id_bank_account = id;
+        //setCurrency(currency);
     }
 
     const redirect = () => {
@@ -170,7 +177,7 @@ const AddTransaction = () => {
                                                                 >
                                                                     <option value="">-- Select Account --</option>
                                                                     {accounts && accounts.map((account) => (
-                                                                        <option key={account.id} value={account.id}>
+                                                                        <option key={account.id} value={account.id} data-currency={account.currency}>
                                                                             {account.id}
                                                                         </option>
                                                                     ))}
@@ -236,9 +243,9 @@ const AddTransaction = () => {
                                                                 Amount
                                                             </label>
                                                             <div className="relative mt-1 rounded-md shadow-sm">
-                                                                {/* <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                                                    <span className="text-gray-500 sm:text-sm">{formData.amount}</span>
-                                                                </div> */}
+                                                                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                                                    <span className="text-gray-500 sm:text-sm">{currency}</span>
+                                                                </div>
                                                                 <input
                                                                     type="number"
                                                                     name="amount"
@@ -296,8 +303,8 @@ const AddTransaction = () => {
                 </Dialog>
             </Transition.Root>
 
-            {showAlert && !setError && <Alert message="Transaction created successful!" color="green" />}
-            {/* {showAlert && setError && <Alert message="Error creating bank account!" color="red" />} */}
+            {showAlert && error === false && <Alert message="Transaction created successful!" color="green" />}
+            {showAlert && error && <Alert message="Error creating Transaction!" color="red" />}
         </>
 
     )

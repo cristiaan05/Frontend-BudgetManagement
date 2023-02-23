@@ -190,7 +190,7 @@ const AddTransfer = () => {
                                                                     <option value="$">USD $</option>
                                                                     <option value="€">EUR €</option>
                                                                     <option value="¥">JPY ¥</option>
-                                                                    <option value="$">MXN $</option>
+                                                                    <option value="$$">MXN $</option>
                                                                     <option value="Q">GTQ Q</option>
                                                                 </select>
                                                             </div>
@@ -257,8 +257,8 @@ const AddTransfer = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-            {showAlert && error === false && <Alert message="Transaction created successful!" color="green" />}
-            {showAlert && error && <Alert message="Error creating bank account!" color="red" />}
+            {showAlert && error === false && <Alert message="Transfer created successful!" color="green" />}
+            {showAlert && error && <Alert message="Error creating transfer!" color="red" />}
         </>
 
     )

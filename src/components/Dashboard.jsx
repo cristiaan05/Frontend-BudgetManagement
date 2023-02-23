@@ -17,8 +17,8 @@ const Dashboard = () => {
     const redirectTransfer = (id) => {
         navigate('/transactions/AddTransfer',{state:{id:id}})
     }
-    const redirectTransaction = (id) => {
-        navigate('/transactions/AddTransactions',{state:{id:id}})
+    const redirectTransaction = (id,currency) => {
+        navigate('/transactions/AddTransactions',{state:{id:id,currency:currency}})
     }
 
     useEffect(() => {
@@ -57,8 +57,8 @@ const Dashboard = () => {
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account Type</th>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Balance</th>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Currency</th>
-                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Add Transaction</th>
                                         <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Add Exp/Inc</th>
+                                        <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Add Transfer</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -72,7 +72,7 @@ const Dashboard = () => {
                                                 {/* <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded">
                                         <GrTransaction className="h-6 w-6 text-white-600" aria-hidden="true" color="white" />
                                     </button> */}
-                                                <button onClick={() => redirectTransaction(account.id)} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600">
+                                                <button onClick={() => redirectTransaction(account.id,account.currency)} className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600">
                                                     <GrTransaction className="h-6 w-6 text-white" aria-hidden="true" />
                                                 </button>
                                             </td>
