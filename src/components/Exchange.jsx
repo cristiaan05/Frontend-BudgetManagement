@@ -36,7 +36,7 @@ function ExchangeForm() {
 
   const calculateExchange = async (event) => {
     event.preventDefault();
-    const response = await fetch('http://localhost:3000/app/getExchanges', {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/getExchanges`, {
       method: 'POST',
       credentials: 'include',
       headers: {

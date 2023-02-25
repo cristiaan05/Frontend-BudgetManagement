@@ -7,7 +7,7 @@ export const getTransactionsByUser = createAsyncThunk(
     'auth/getTransactions',
     async () => {
         try {
-            const response = await fetch('http://localhost:3000/app/getTransactions', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/getTransactions`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -32,7 +32,7 @@ export const getTransactionsByFilters = createAsyncThunk(
         //const {id_bank_account,category,startDate,endDate}=filterData
         //console.log(filterData)
         try {
-            const response = await fetch('http://localhost:3000/app/getHistory', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/getHistory`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

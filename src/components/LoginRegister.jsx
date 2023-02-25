@@ -2,6 +2,7 @@ import React, { useState, Fragment, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { logIn } from "../store/authSlice";
+import { useCookies } from 'react-cookie';
 //import axios from 'axios';
 //import "tailwindcss/dist/tailwind.min.css";
 
@@ -17,6 +18,7 @@ const LoginRegister = () => {
     const [password, setPassword] = useState("");
     const [isLogin, setIsLogin] = useState(true);
     const [error, setError] = useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies(['usertoken']);
 
     const dispatch=useDispatch();
     //const {isAuth}=useSelector(state=>state.auth)
@@ -47,7 +49,7 @@ const LoginRegister = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (isLogin) {
-            const response = await fetch('http://localhost:3000/app/signIn', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/signIn`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -62,12 +64,13 @@ const LoginRegister = () => {
             //console.log(responseJson);
 
             if (responseJson.successfull) {
+                setCookie('usertoken', responseJson.token, { expires: new Date(2147483647 * 1000), });
                 document.cookie=`authorization=${responseJson.token}`
-                localStorage.setItem('usertoken', responseJson.token)
+                window.localStorage.setItem('usertoken', responseJson.token)
                 dispatch(logIn({email:email}))
                 redirect();
             } else {
-                localStorage.removeItem('usertoken')
+                window.localStorage.removeItem('usertoken')
                 setError(true);
                 //setIsLogin(false);
             }
@@ -100,7 +103,7 @@ const LoginRegister = () => {
             //     // Perform registration action
             // }
         } else {
-            const response = await fetch('http://localhost:3000/app/signUp', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/signUp`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

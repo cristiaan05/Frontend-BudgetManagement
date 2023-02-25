@@ -2,11 +2,13 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { BsBank } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie';
 import Alert from './Alert'
 
 const AddBankAccount = () => {
   // eslint-disable-next-line no-unused-vars
   const [open, setOpen] = useState(true)
+  const [cookies] = useCookies(['usertoken']);
   const [formData, setFormData] = useState({ account_name: '', balance: '', currency: '' })
   const cancelButtonRef = useRef(null)
 
@@ -43,13 +45,16 @@ const AddBankAccount = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log(localStorage)
+    let token=window.localStorage.getItem('usertoken');
+    console.log(token)
     try {
-      const response = await fetch('http://localhost:3000/app/addAcount', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/addAcount`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'Cookie': `authorization=${localStorage.getItem('usertoken')}`
+          'Cookie': `authorization=${cookies.usertoken}`
         },
         body: JSON.stringify({
           account_name: formData.account_name,
