@@ -23,7 +23,7 @@ const Navbar = () => {
 
     const navigate = useNavigate();
     const redirect = () => {
-        localStorage.removeItem('usertoken');
+        window.localStorage.removeItem('usertoken');
         dispatch(logOut());
         navigate('/')
     }

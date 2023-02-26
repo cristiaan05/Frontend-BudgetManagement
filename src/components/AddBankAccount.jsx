@@ -43,13 +43,14 @@ const AddBankAccount = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    let token=window.localStorage.getItem('usertoken')
     try {
-      const response = await fetch('http://localhost:3000/app/addAcount', {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/addAcount`, {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'Cookie': `authorization=${localStorage.getItem('usertoken')}`
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           account_name: formData.account_name,

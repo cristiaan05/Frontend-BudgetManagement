@@ -1,18 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-const token = localStorage.getItem('usertoken');
+
 //console.log(token)
 export const getAccountsByUser = createAsyncThunk(
 
     'auth/getAccounts',
     async () => {
         try {
-            const response = await fetch('http://localhost:3000/app/getAccounts', {
+            const token = window.localStorage.getItem('usertoken');
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/getAccounts`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Cookie': `authorization=${token}`
+                    Authorization: `Bearer ${token}`,
                 },
             });
             const responseJson = await response.json();
@@ -27,7 +28,7 @@ export const getAccountsByUser = createAsyncThunk(
 
 const initialState = {
     accounts: null,
-    account_name:null,
+    account_name: null,
 }
 
 export const accountSlice = createSlice({
@@ -40,13 +41,13 @@ export const accountSlice = createSlice({
 
         }
     },
-    extraReducers:(builder)=>{
-        builder.addCase(getAccountsByUser.fulfilled,(state,action)=>{
+    extraReducers: (builder) => {
+        builder.addCase(getAccountsByUser.fulfilled, (state, action) => {
             state.accounts = action.payload.accounts;
         })
 
         // [getAccountsByUser.fulfilled]:(state,action)=>{
-            
+
         // }
     },
 });

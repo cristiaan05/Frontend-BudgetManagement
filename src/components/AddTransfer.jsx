@@ -54,12 +54,13 @@ const AddTransfer = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch('http://localhost:3000/app/transferMyAccounts', {
+            let token = window.localStorage.getItem('usertoken')
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/transferMyAccounts`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Cookie': `authorization=${localStorage.getItem('usertoken')}`
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     date: formData.date,

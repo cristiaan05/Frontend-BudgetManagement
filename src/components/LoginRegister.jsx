@@ -47,7 +47,7 @@ const LoginRegister = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (isLogin) {
-            const response = await fetch('http://localhost:3000/app/signIn', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/signIn`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -62,12 +62,12 @@ const LoginRegister = () => {
             //console.log(responseJson);
 
             if (responseJson.successfull) {
-                document.cookie=`authorization=${responseJson.token}`
-                localStorage.setItem('usertoken', responseJson.token)
+                //document.cookie=`authorization=${responseJson.token}`
+                window.localStorage.setItem('usertoken', responseJson.token)
                 dispatch(logIn({email:email}))
                 redirect();
             } else {
-                localStorage.removeItem('usertoken')
+                window.localStorage.removeItem('usertoken')
                 setError(true);
                 //setIsLogin(false);
             }
@@ -100,7 +100,7 @@ const LoginRegister = () => {
             //     // Perform registration action
             // }
         } else {
-            const response = await fetch('http://localhost:3000/app/signUp', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/signUp`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

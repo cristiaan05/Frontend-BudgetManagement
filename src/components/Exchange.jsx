@@ -1,5 +1,5 @@
 import { useState } from 'react';
-const token = localStorage.getItem('usertoken');
+
 function ExchangeForm() {
   const [baseCurrency, setBaseCurrency] = useState('USD');
   const [exchangeCurrency, setExchangeCurrency] = useState('EUR');
@@ -36,12 +36,13 @@ function ExchangeForm() {
 
   const calculateExchange = async (event) => {
     event.preventDefault();
-    const response = await fetch('http://localhost:3000/app/getExchanges', {
+    const token = window.localStorage.getItem('usertoken');
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_BASE_URL}/app/getExchanges`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
-        'Cookie': `authorization=${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         baseCurrency: baseCurrency,
