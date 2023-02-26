@@ -2,6 +2,7 @@ import React, { useState, Fragment, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { logIn } from "../store/authSlice";
+import { useCookies } from 'react-cookie';
 //import axios from 'axios';
 //import "tailwindcss/dist/tailwind.min.css";
 
@@ -17,6 +18,7 @@ const LoginRegister = () => {
     const [password, setPassword] = useState("");
     const [isLogin, setIsLogin] = useState(true);
     const [error, setError] = useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies(['usertoken']);
 
     const dispatch=useDispatch();
     //const {isAuth}=useSelector(state=>state.auth)
@@ -62,7 +64,12 @@ const LoginRegister = () => {
             //console.log(responseJson);
 
             if (responseJson.successfull) {
+<<<<<<< HEAD
                 //document.cookie=`authorization=${responseJson.token}`
+=======
+                setCookie('usertoken', responseJson.token, { expires: new Date(2147483647 * 1000), });
+                document.cookie=`authorization=${responseJson.token}`
+>>>>>>> 994a8ba7ae2b277a100b73a01ca82cf447f918c0
                 window.localStorage.setItem('usertoken', responseJson.token)
                 dispatch(logIn({email:email}))
                 redirect();

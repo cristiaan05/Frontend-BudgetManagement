@@ -2,11 +2,13 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { BsBank } from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie';
 import Alert from './Alert'
 
 const AddBankAccount = () => {
   // eslint-disable-next-line no-unused-vars
   const [open, setOpen] = useState(true)
+  const [cookies] = useCookies(['usertoken']);
   const [formData, setFormData] = useState({ account_name: '', balance: '', currency: '' })
   const cancelButtonRef = useRef(null)
 

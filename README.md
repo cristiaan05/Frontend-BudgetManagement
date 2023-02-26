@@ -68,3 +68,25 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+minikube start --cpus 2 --memory 4000
+&& minikube start --driver=docker --cpus 2 --memory 6000
+
+kubectl get nodes
+kubectl get namespaces
+kubectl create namespaces app1
+kubectl get ns
+kubectl delete ns app1
+
+kubectl get pods -A
+
+kubectl run mipod1 --image=kicbase/echo-server:1.0
+
+kubectl run mifrontend --image=chernandez05/app-frontend:0.1.0-alpine
+
+kubectl run mifrontend --image=chernandez05/app-frontend:0.1.0-alpine -n app1
+
+kubectl port-forward pods/mifrontend 8888:80 -n default
+k3d cluster create mycluster --api-port 6550 --wait 60s
+
